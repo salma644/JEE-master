@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="Template.html">
+
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <meta charset="UTF-8">
+    <title>Charge List</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <main class="container mt-5">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Montant</th>
+                <th scope="col">Date Dernier Delai</th>
+                <th scope="col">Date Paiement</th>
+                <th scope="col">Observation</th>
+                <th scope="col">Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="charge:${chargethym.content}">
+                <td th:text="${charge.id}"></td>
+                <td th:text="${charge.title}"></td>
+                <td th:text="${charge.montant}"></td>
+                <td th:text="${charge.dateDernierDelai}"></td>
+                <td th:text="${charge.datePaiement}"></td>
+                <td th:text="${charge.observation}"></td>
+                <td th:if="${#authorization.expression('hasAnyAuthority(''ROLE_ADMIN'')')}">
+                    <a onclick="return confirm('Are you sure to delete this item ?')"
+                       th:href="@{deleteCharge(id=${charge.id}, page=${currentPage}, size=${size})}"
+                       class="btn btn-danger">Delete</a>
+                </td>
+                <td th:if="${#authorization.expression('hasAnyAuthority(''ROLE_ADMIN'')')}">
+                    <a th:href="@{showCharge(id=${charge.id})}" class="btn btn-primary">Edit</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <ul class="pagination">
+            <li th:each="page, status:${pages}" th:classappend="${status.index==currentPage? 'active': ''}">
+                <a th:href="@{chargesList(page=${status.index}, size=${size})}" th:text="${status.index}"
+                   class="page-link"></a>
+            </li>
+        </ul>
+    </main>
+</div>
+</body>
+
+</html>

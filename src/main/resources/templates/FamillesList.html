@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="Template.html">
+
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <meta charset="UTF-8">
+    <title>Famille List</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <main class="container mt-5">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Type</th>
+                <th scope="col">Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="famille:${famillethym.content}">
+                <td th:text="${famille.id}"></td>
+                <td th:text="${famille.nom}"></td>
+                <td th:text="${famille.type}"></td>
+                <td th:if="${#authorization.expression('hasAnyAuthority(''ROLE_ADMIN'')')}">
+                    <a onclick="return confirm('Are you sure to delete this item ?')"
+                       th:href="@{deleteFamille(id=${famille.id}, page=${currentPage}, size=${size})}"
+                       class="btn btn-danger">Delete</a>
+                </td>
+                <td th:if="${#authorization.expression('hasAnyAuthority(''ROLE_ADMIN'')')}">
+                    <a th:href="@{showFamille(id=${famille.id})}" class="btn btn-primary">Edit</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <ul class="pagination">
+            <li th:each="page, status:${pages}" th:classappend="${status.index==currentPage? 'active': ''}">
+                <a th:href="@{famillesList(page=${status.index}, size=${size})}" th:text="${status.index}"
+                   class="page-link"></a>
+            </li>
+        </ul>
+    </main>
+</div>
+</body>
+
+</html>

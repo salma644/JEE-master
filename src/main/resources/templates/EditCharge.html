@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="Template.html"
+>
+<head>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+  <meta charset="UTF-8">
+  <title>Charge Creation</title>
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .form-label {
+      font-weight: bold;
+    }
+
+    .mb-3 {
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+      background-color: #0069d9;
+      border-color: #0062cc;
+    }
+  </style>
+</head>
+<body>
+<div layout:fragment="content">
+  <main class="container mt-5">
+    <form th:action="@{updateCharge}" method="post" th:object="${chargethym}">
+      <div class="mb-3">
+        <label for="title" class="form-label">Title:</label>
+        <input type="text" class="form-control" id="title" name="title"
+               th:value="${chargethym.title}"
+        >
+      </div>
+      <div class="mb-3">
+        <input type="hidden" class="form-control" id="id" name="id" th:value="${chargethym.id}">
+      </div>
+      <div class="mb-3">
+        <label for="montant" class="form-label">Montant:</label>
+        <input type="text" class="form-control" id="montant" name="montant" th:value="${chargethym.montant}">
+      </div>
+      <div class="mb-3">
+        <label for="dateDernierDelai" class="form-label">Date Dernier Delai:</label>
+        <input type="date" class="form-control" id="dateDernierDelai" name="dateDernierDelai" th:value="${chargethym.dateDernierDelai}">
+      </div>
+      <div class="mb-3">
+        <label for="datePaiement" class="form-label">Date Paiement:</label>
+        <input type="date" class="form-control" id="datePaiement" name="datePaiement" th:value="${chargethym.datePaiement}">
+      </div>
+      <div class="mb-3">
+        <label for="observation" class="form-label">Observation:</label>
+        <input type="text" class="form-control" id="observation" name="observation" th:value="${chargethym.observation}">
+      </div>
+
+      <input type="submit" class="btn btn-primary" value="Update"/>
+    </form>
+  </main>
+</div>
+</body>
+</html>
